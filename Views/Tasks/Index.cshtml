@@ -4,38 +4,67 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h3>To Do Task</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row">
+    <a class="text-end text-decoration-none" asp-action="Create">+Add To Task</a>
+</div>
+<hr /> 
+
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsCompleted)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsCompleted)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Where( m => m.IsCompleted == false)) {
+            <tr>
+                <td>
+                    <input class="form-check-input me-1" data-id="@item.Id" type="checkbox" onchange="todoTaskComplete(this)">
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td class="text-end">
+                    <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="text-decoration-none" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a class="text-decoration-none" asp-action="" asp-route-id="@item.Id">Star</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tbody>
+        
+        @foreach (var item in Model.Where(m => m.IsCompleted))
+        {
+            <tr>
+                <td>
+                    <input class="form-check-input me-1" data-id="@item.Id" type="checkbox" checked="@item.IsCompleted" onchange="todoTaskRedo(this)">
+                </td>
+                <td class="text-decoration-line-through">
+                    @item.Title
+                </td>
+                <td class="text-end">
+                    <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="text-decoration-none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+
     </tbody>
 </table>
+
+@section scripts {
+    <script type="text/javascript">
+        function todoTaskComplete(e){
+            var id = e.getAttribute("data-id");
+            var url ="/Tasks/UpdateTask/"+id;
+            $.post(url, function (data){
+                window.location.reload(true);
+            });
+        }
+        function todoTaskRedo(e){
+            var id = e.getAttribute("data-id");
+            var url ="/Tasks/ReDoTask/"+id;
+            $.post(url, function (data){
+                window.location.reload(true);
+            });
+        }
+    </script>
+}

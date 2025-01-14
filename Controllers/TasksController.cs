@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoTask.Data;
-using ToDoTask.Models;
+using Task = ToDoTask.Models.Task;
+
 
 namespace ToDoTask.Controllers
 {
@@ -152,6 +148,32 @@ namespace ToDoTask.Controllers
         private bool TaskExists(int id)
         {
             return _context.Task.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateTask(int id)
+        {
+            var task = await _context.Task.FindAsync(id);
+            if (task != null)
+            {
+                task.IsCompleted = true;
+                _context.Task.Update(task);
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReDoTask(int id)
+        {
+            var task = await _context.Task.FindAsync(id);
+            if(task != null)
+            {
+                task.IsCompleted = false;
+                _context.Task.Update(task);
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
         }
     }
 }

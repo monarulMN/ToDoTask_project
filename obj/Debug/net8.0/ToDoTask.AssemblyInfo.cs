@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ToDoTask")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9395a779d93f589aa74df7da2381b8fd207ce177")]
 [assembly: System.Reflection.AssemblyProductAttribute("ToDoTask")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ToDoTask")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
